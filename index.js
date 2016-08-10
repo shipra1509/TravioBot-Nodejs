@@ -37,70 +37,17 @@ app.post('/webhook/', function (req, res) {
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text
-            if (text === 'Generic') {
-                sendGenericMessage(sender)
-                continue
-            }
             sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
         }
     }
     res.sendStatus(200)
 })
 
-var token = "EAAC4ZBv5viZAsBAGuGhnvLZCKapW5B5B9wbiEZA1yDfrgSnFQ1GE40M7IoTgUawnfnpSiHtQFWgnnrZAf9B7eaxGZBWQvHdr47JUZAvXdSMZAY5tQPrdvbifOch3DC4GZAEjncVMlyxulsto3NyUIBprypBGQQzaG7pKXAnzP91iMPQZDZD"
+var token = "EAAY7ZB3utt2wBAC0GQxFXm9JgsqihZBiBJeZCrZCPMSWL0qKdqKmZCM5OVLfX7fihWMeAgcaaWdr3nxdfo4mzcoZAQoZCi8gU7J7mJ18gQf1kHZCH7IcQvlPtxGwzqkYKW0dZCj7PtXsOK7Fmw8mh7BCTTGZATyVOZABZBsI4MI8kh8pWAZDZD"
 
 function sendTextMessage(sender, text) {
     messageData = {
         text:text
-    }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
-}
-
-function sendGenericMessage(sender) {
-    messageData = {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": [{
-                    "title": "First card",
-                    "subtitle": "Element #1 of an hscroll",
-                    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
-                    "buttons": [{
-                        "type": "web_url",
-                        "url": "https://www.messenger.com",
-                        "title": "web url"
-                    }, {
-                        "type": "postback",
-                        "title": "Postback",
-                        "payload": "Payload for first element in a generic bubble",
-                    }],
-                }, {
-                    "title": "Second card",
-                    "subtitle": "Element #2 of an hscroll",
-                    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
-                    "buttons": [{
-                        "type": "postback",
-                        "title": "Postback",
-                        "payload": "Payload for second element in a generic bubble",
-                    }],
-                }]
-            }
-        }
     }
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
